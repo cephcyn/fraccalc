@@ -22,34 +22,34 @@ public class Test {
         test("3 - 2_2/-3", "\"2_2/-3\" is not an acceptable operand.");
         //TODO replace these with actual answers as program advances
         //test first operand valid cases
-        test("3 - 2", "3 - 2");
-        test("-3 - 2", "-3 - 2");
-        test("+3 - 2", "3 - 2");
-        test("3/2 - 2", "3/2 - 2");
-        test("-3/2 - 2", "-3/2 - 2");
-        test("+3/2 - 2", "3/2 - 2");
-        test("3_3/2 - 2", "9/2 - 2");
-        test("-3_3/2 - 2", "-9/2 - 2");
-        test("+3_3/2 - 2", "9/2 - 2");
+        test("3 - 2", "3/1 - 2/1");
+        test("-3 - 2", "-3/1 - 2/1");
+        test("+3 - 2", "3/1 - 2/1");
+        test("3/2 - 2", "3/2 - 2/1");
+        test("-3/2 - 2", "-3/2 - 2/1");
+        test("+3/2 - 2", "3/2 - 2/1");
+        test("3_3/2 - 2", "9/2 - 2/1");
+        test("-3_3/2 - 2", "-9/2 - 2/1");
+        test("+3_3/2 - 2", "9/2 - /12");
         //test valid operator cases
-        test("3 - 2", "3 - 2");
-        test("3 + 2", "3 + 2");
-        test("3 * 2", "3 * 2");
-        test("3 / 2", "3 / 2");
+        test("3 - 2", "3/1 - 2/1");
+        test("3 + 2", "3/1 + 2/1");
+        test("3 * 2", "3/1 * 2/1");
+        test("3 / 2", "3/1 / 2/1");
         //test second operand valid cases
-        test("3 - 1", "3 - 1");
-        test("3 - -1", "3 - -1");
-        test("3 - +1", "3 - 1");
-        test("3 - 1/2", "3 - 1/2");
-        test("3 - -1/2", "3 - -1/2");
-        test("3 - +1/2", "3 - 1/2");
-        test("3 - 1_1/2", "3 - 3/2");
-        test("3 - -1_1/2", "3 - -3/2");
-        test("3 - +1_1/2", "3 - 3/2");
+        test("3 - 1", "3/1 - 1/1");
+        test("3 - -1", "3/1 - -1/1");
+        test("3 - +1", "3/1 - 1/1");
+        test("3 - 1/2", "3/1 - 1/2");
+        test("3 - -1/2", "3/1 - -1/2");
+        test("3 - +1/2", "3/1 - 1/2");
+        test("3 - 1_1/2", "3/1 - 3/2");
+        test("3 - -1_1/2", "3/1 - -3/2");
+        test("3 - +1_1/2", "3/1 - 3/2");
         //test spacing 
         //(various cases, can't possibly exhaust all but as the scanner.next() ignores spacing it should be fine)
-        test("        3 - 2        ", "3 - 2");
-        test("3         - 2", "3 - 2");
+        test("        3 - 2        ", "3/1 - 2/1");
+        test("3         - 2", "3/1 - 2/1");
         test("3- 2         ", "Too few tokens."); //Not having a space between operator and operand is not good xD
         //tests special commands (really anything involving special commands)
         test("quit", "Goodbye.");
