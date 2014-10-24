@@ -39,12 +39,13 @@ public class FracCalc {
             return "\"" + token3 + "\" is not an acceptable operand.";
         }
         stringscan.close();
-        output = toImproper(token1) + " " + token2 + " " + toImproper(token3);
+        token1 = toImproper(token1);
+        token3 = toImproper(token3);
         return output;
     }
 
-    public static int gcd(int a, int b) {
-        //Finds the greatest common denominator between A and B
+    public static int gcf(int a, int b) {
+        //Finds the greatest common factor between A and B
         //Always returns a positive value
         int trans = 0;
         while (b != 0) {
