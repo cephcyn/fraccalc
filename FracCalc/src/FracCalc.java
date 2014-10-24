@@ -78,22 +78,12 @@ public class FracCalc {
     }
 
     public static String toImproper(String input) {
-        //Converts any proper operand to an Integer or Fraction/Improper Fraction, without (redundant) positive signs
-        String spaced = input;
+        //This method converts any proper operand to an Integer or Fraction/Improper Fraction, without (redundant) positive signs
+        String spaced = spaceString(input);
         String output = "";
         int intpart = 0;
         int toppart = 0;
-        int botpart = 0;
-        //spaces out the int parts ("-3_3/4" goes to "-3 _ 3 / 4")
-        for (int i = 1; i < spaced.length(); i++) {
-            if (spaced.charAt(i) == '_' && spaced.charAt(i - 1) != ' ') {
-                spaced = spaced.substring(0, i) + " " + spaced.substring(i);
-            } else if (Character.isDigit(spaced.charAt(i)) && (spaced.charAt(i - 1) == '_' || spaced.charAt(i - 1) == '/')) {
-                spaced = spaced.substring(0, i) + " " + spaced.substring(i);
-            } else if (spaced.charAt(i) == '/' && spaced.charAt(i - 1) != ' ') {
-                spaced = spaced.substring(0, i) + " " + spaced.substring(i);
-            }
-        }
+        int botpart = 1;
         //parses spaced string and turns it into a set of three ints
         if (isMixed(input)) {
             Scanner mixscan = new Scanner(spaced);
@@ -110,11 +100,9 @@ public class FracCalc {
             botpart = fracscan.nextInt();
             fracscan.close();
         } else {
-            //Ints will not process the code outside else{}, as they shouldn't have a fracline
+            //Ints should also have a fracline... example, "7" -> "7/1"
             Scanner intscan = new Scanner(spaced);
             intpart = intscan.nextInt();
-            output += intpart;
-            return output;
         }
         //combines int into fraction
         if (intpart >= 0) {
@@ -125,6 +113,19 @@ public class FracCalc {
         }
         output = toppart + "/" + botpart;
         return output;
+    }
+    public static String spaceString(String input) {
+        //spaces out the int parts ("-3_3/4" goes to "-3 _ 3 / 4")
+        for (int i = 1; i < input.length(); i++) {
+            if (input.charAt(i) == '_' && input.charAt(i - 1) != ' ') {
+                input = input.substring(0, i) + " " + input.substring(i);
+            } else if (Character.isDigit(input.charAt(i)) && (input.charAt(i - 1) == '_' || input.charAt(i - 1) == '/')) {
+                input = input.substring(0, i) + " " + input.substring(i);
+            } else if (input.charAt(i) == '/' && input.charAt(i - 1) != ' ') {
+                input = input.substring(0, i) + " " + input.substring(i);
+            }
+        }
+        return input;
     }
 
     public static boolean isInteger(String input) {
