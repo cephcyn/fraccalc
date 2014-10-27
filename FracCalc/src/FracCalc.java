@@ -90,15 +90,12 @@ public class FracCalc {
         if (isMixed(input)) {
             Scanner mixscan = new Scanner(spaced);
             intpart = mixscan.nextInt();
-            mixscan.next();
             toppart = mixscan.nextInt();
-            mixscan.next();
             botpart = mixscan.nextInt();
             mixscan.close();
         } else if (isFraction(input)) {
             Scanner fracscan = new Scanner(spaced);
             toppart = fracscan.nextInt();
-            fracscan.next();
             botpart = fracscan.nextInt();
             fracscan.close();
         } else {
