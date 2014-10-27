@@ -12,6 +12,7 @@ public class FracCalc {
             return "This function isn't working currently, but it hopefully will later!";
         }
         if (stringscan.hasNext("help") && wordCount(input) == 1) {
+            //TODO read special commands in any case (uppercase, lowercase, mixed)
             //Returns help
             return helpText();
         } else if (stringscan.hasNext("quit") && wordCount(input) == 1) {
@@ -118,18 +119,7 @@ public class FracCalc {
 
     public static String spaceString(String input) {
         //spaces out the int parts ("-3_3/4" goes to "-3 _ 3 / 4")
-        for (int i = 1; i < input.length(); i++) {
-            if (input.charAt(i) == '_' && input.charAt(i - 1) != ' ') {
-                input = input.substring(0, i) + " " + input.substring(i);
-            } else if (Character.isDigit(input.charAt(i))
-                    && (input.charAt(i - 1) == '_'
-                    || input.charAt(i - 1) == '/')) {
-                input = input.substring(0, i) + " " + input.substring(i);
-            } else if (input.charAt(i) == '/' && input.charAt(i - 1) != ' ') {
-                input = input.substring(0, i) + " " + input.substring(i);
-            }
-        }
-        return input;
+        return input.replace('_', ' ').replace('/',' ');
     }
 
     public static boolean isInteger(String input) {
