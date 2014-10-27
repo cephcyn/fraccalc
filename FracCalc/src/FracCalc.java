@@ -115,12 +115,15 @@ public class FracCalc {
         output = toppart + "/" + botpart;
         return output;
     }
+
     public static String spaceString(String input) {
         //spaces out the int parts ("-3_3/4" goes to "-3 _ 3 / 4")
         for (int i = 1; i < input.length(); i++) {
             if (input.charAt(i) == '_' && input.charAt(i - 1) != ' ') {
                 input = input.substring(0, i) + " " + input.substring(i);
-            } else if (Character.isDigit(input.charAt(i)) && (input.charAt(i - 1) == '_' || input.charAt(i - 1) == '/')) {
+            } else if (Character.isDigit(input.charAt(i))
+                    && (input.charAt(i - 1) == '_'
+                    || input.charAt(i - 1) == '/')) {
                 input = input.substring(0, i) + " " + input.substring(i);
             } else if (input.charAt(i) == '/' && input.charAt(i - 1) != ' ') {
                 input = input.substring(0, i) + " " + input.substring(i);
@@ -149,7 +152,8 @@ public class FracCalc {
         for (int i = 0; i < input.length(); i++) {
             if (input.charAt(i) == '/') {
                 fracline = i;
-                if (isInteger(input.substring(0, fracline)) && isInteger(input.substring(fracline + 1))
+                if (isInteger(input.substring(0, fracline))
+                        && isInteger(input.substring(fracline + 1))
                         && Character.isDigit(input.charAt(fracline + 1))) {
                     return true;
                 }
@@ -165,7 +169,8 @@ public class FracCalc {
         for (int i = 0; i < input.length(); i++) {
             if (input.charAt(i) == '_') {
                 underdash = i;
-                if (isInteger(input.substring(0, underdash)) && isFraction(input.substring(underdash + 1))
+                if (isInteger(input.substring(0, underdash))
+                        && isFraction(input.substring(underdash + 1))
                         && Character.isDigit(input.charAt(underdash + 1))) {
                     return true;
                 }
