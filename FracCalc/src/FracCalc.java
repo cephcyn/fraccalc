@@ -6,13 +6,11 @@ public class FracCalc {
     public static String calc(String input) {
         input = input.toLowerCase();
         Scanner stringscan = new Scanner(input);
-        String output = "";
         //Detects special commands such as "toggle", "help" and "quit"
         //TODO implement toggle command
         if (stringscan.hasNext("toggle") && wordCount(input) == 1) {
             return "This function isn't working currently, but it hopefully will later!";
-        }
-        if (stringscan.hasNext("help") && wordCount(input) == 1) {
+        } else if (stringscan.hasNext("help") && wordCount(input) == 1) {
             //TODO read special commands in any case (uppercase, lowercase, mixed)
             //Returns help
             return helpText();
@@ -21,9 +19,10 @@ public class FracCalc {
             return "Goodbye.";
         } else {
             //Tests token count, returns error if not acceptable
+            //TODO: Can we make this actually able to process multiple sets of operations???
             if (wordCount(input) < 3) {
                 return "Too few tokens.";
-            } else if (wordCount(input) > 3) {
+            } else if ((wordCount(input) > 3) && (wordCount(input) % 2 != 0)) {
                 return "Too many tokens.";
             }
         }
@@ -43,7 +42,7 @@ public class FracCalc {
         stringscan.close();
         token1 = toImproper(token1);
         token3 = toImproper(token3);
-        return token1 + " " + token2 + " " + token3;
+        return processImproper(token1, token2, token3);
     }
 
     public static int gcf(int a, int b) {
@@ -61,11 +60,14 @@ public class FracCalc {
 
     public static String helpText() {
         //TODO update help text as needed
-        return "FracCalc takes two integers, fractions, or mixed fractions and \n"
-                + "an operator, and does the appropriate operation on them, then \n"
+        return "FracCalc takes several integers, fractions, or mixed fractions and \n"
+                + "some operators, and does the appropriate operation(s) on them, then \n"
                 + "returns an appropriately simplified integer, fraction, or mixed fraction. \n"
                 + "Any operand may have a + or - preceding it (positive and negative signs) \n"
                 + "but a sign placed anywhere else is not accepted. \n"
+                + "Note that all operations are performed LEFT TO RIGHT, \n"
+                + "regardless of operator precedence: \n"
+                + "\"3 + 4 * 5\" would return \"35\", not \"23\". \n"
                 + "The proper format for an integer is \n"
                 + "<+ or - optional><positive whole number>. \n"
                 + "The proper format for a fraction is \n"
@@ -78,6 +80,22 @@ public class FracCalc {
                 + "Type \"toggle\" to switch between output as improper fractions or completely reduced output, \n"
                 + "\"help\" to get help (you're reading this right now!) \n"
                 + "or type \"quit\" to quit.";
+    }
+
+    public static String processImproper(String token1, String token2, String token3) {
+        //Performs the appropriate operation on the two fractions
+        //TODO finish this
+        if (token2.equals("+")) {
+        } else if (token2.equals("-")) {
+        } else if (token2.equals("*")) {
+            return multiply(token1, token2);
+        } else { //if token2.equals("/")
+        }
+        return token1 + token2 + token3;
+    }
+    
+    public static String multiply(String op1, String op2) {
+        
     }
 
     public static String toImproper(String input) {
@@ -112,13 +130,14 @@ public class FracCalc {
             toppart += -1 * intpart * botpart;
             toppart *= -1;
         }
-        output = toppart + "/" + botpart;
+        output = toppart + " " + botpart;
         return output;
+        //
     }
 
     public static String spaceString(String input) {
         //spaces out the int parts ("-3_3/4" goes to "-3 3 4")
-        return input.replace('_', ' ').replace('/',' ');
+        return input.replace('_', ' ').replace('/', ' ');
     }
 
     public static boolean isInteger(String input) {
@@ -128,7 +147,9 @@ public class FracCalc {
                 return false;
             }
         }
-        if (Character.isDigit(input.charAt(0)) || input.charAt(0) == '-' || input.charAt(0) == '+') {
+        if (Character.isDigit(input.charAt(0))
+                || input.charAt(0) == '-'
+                || input.charAt(0) == '+') {
             return true;
         }
         return false;
@@ -170,12 +191,14 @@ public class FracCalc {
 
     public static boolean isOperator(String input) {
         //To test if the given string is an operator
-        return (input.equals("+") || input.equals("-") || input.equals("*") || input.equals("/"));
+        return (input.equals("+")
+                || input.equals("-")
+                || input.equals("*")
+                || input.equals("/"));
     }
 
     public static int wordCount(String input) {
         //Counts the number of tokens
-        //Used for too many/too few error reporting
         int count = 0;
         for (int i = 0; i < input.length(); i++) {
             if (input.charAt(i) != ' ') {
