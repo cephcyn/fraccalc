@@ -4,6 +4,7 @@ import java.util.*;
 public class FracCalc {
 
     public static String calc(String input) {
+        input = input.toLowerCase();
         Scanner stringscan = new Scanner(input);
         String output = "";
         //Detects special commands such as "toggle", "help" and "quit"
@@ -42,7 +43,7 @@ public class FracCalc {
         stringscan.close();
         token1 = toImproper(token1);
         token3 = toImproper(token3);
-        return output;
+        return token1 + " " + token2 + " " + token3;
     }
 
     public static int gcf(int a, int b) {
@@ -102,6 +103,7 @@ public class FracCalc {
             //Ints should also have a fracline... example, "7" -> "7/1"
             Scanner intscan = new Scanner(spaced);
             intpart = intscan.nextInt();
+            intscan.close();
         }
         //combines int into fraction
         if (intpart >= 0) {
@@ -115,7 +117,7 @@ public class FracCalc {
     }
 
     public static String spaceString(String input) {
-        //spaces out the int parts ("-3_3/4" goes to "-3 _ 3 / 4")
+        //spaces out the int parts ("-3_3/4" goes to "-3 3 4")
         return input.replace('_', ' ').replace('/',' ');
     }
 
