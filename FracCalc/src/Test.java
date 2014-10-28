@@ -30,7 +30,7 @@ public class Test {
         test("+3/2 - 2", "3/2 - 2/1");
         test("3_3/2 - 2", "9/2 - 2/1");
         test("-3_3/2 - 2", "-9/2 - 2/1");
-        test("+3_3/2 - 2", "9/2 - /12");
+        test("+3_3/2 - 2", "9/2 - 2/1");
         //test valid operator cases
         test("3 - 2", "3/1 - 2/1");
         test("3 + 2", "3/1 + 2/1");
@@ -53,16 +53,20 @@ public class Test {
         test("3- 2         ", "Too few tokens."); //Not having a space between operator and operand is not good xD
         //tests special commands (really anything involving special commands)
         test("quit", "Goodbye.");
+        test("QUIT", "Goodbye.");
+        test("QuIt", "Goodbye.");
         test("    quit     ", "Goodbye.");
         test("quit quit", "Too few tokens.");
-        test("quit quit quit", "\"quit\" is not acceptable an operator.");
+        test("quit quit quit", "\"quit\" is not an acceptable operator.");
         test("quit quit quit quit", "Too many tokens.");
-        test("toggle","This function isn't working currently, but it hopefully will later!");
-        test("    toggle    ","This function isn't working currently, but it hopefully will later!");
-        test("toggle toggle","Too few tokens.");
-        test("toggle toggle toggle","\"toggle\" is not an acceptable operator.");
-        test("toggle toggle toggle toggle","Too many tokens.");
+        test("toggle", "This function isn't working currently, but it hopefully will later!");
+        test("    toggle    ", "This function isn't working currently, but it hopefully will later!");
+        test("toggle toggle", "Too few tokens.");
+        test("toggle toggle toggle", "\"toggle\" is not an acceptable operator.");
+        test("toggle toggle toggle toggle", "Too many tokens.");
         test("help", FracCalc.helpText());
+        test("HELP", FracCalc.helpText());
+        test("HeLp", FracCalc.helpText());
         test("    help      ", FracCalc.helpText());
         test("help help", "Too few tokens.");
         test("help help help", "\"help\" is not an acceptable operator.");
