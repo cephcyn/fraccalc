@@ -44,11 +44,11 @@ public class FracCalc {
             //to improper, as well as division by 0 error checking
             token1 = toImproper(token1);
             if (token1.equals("0")) {
-                return "Fractions cannot have denominator 0.";
+                return "Fractions and mixed fractions cannot have denominator 0.";
             }
             token3 = toImproper(token3);
             if (token3.equals("0")) {
-                return "Fractions cannot have denominator 0.";
+                return "Fractions and mixed fractions cannot have denominator 0.";
             }
             token1 = simplify(processImproper(token1, token2, token3));
         }
