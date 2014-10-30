@@ -1,3 +1,4 @@
+
 import java.util.*;
 
 public class FracCalc {
@@ -72,7 +73,7 @@ public class FracCalc {
         }
         return Math.abs(a);
     }
-    
+
     public static int lcm(int a, int b) {
         //Finds the lowest common multiple between A and B
         //Always returns positive value
@@ -146,16 +147,16 @@ public class FracCalc {
     public static String processImproper(String token1, String token2, String token3) {
         //Performs the appropriate operation on the two fractions
         if (token2.equals("+")) {
-            return add(token1,token3);
+            return add(token1, token3);
         } else if (token2.equals("-")) {
-            return subtract(token1,token3);
+            return subtract(token1, token3);
         } else if (token2.equals("*")) {
             return multiply(token1, token3);
         } else { //if token2.equals("/")
             return divide(token1, token3);
         }
     }
-    
+
     public static String add(String op1, String op2) {
         //read input into nums and denoms
         Scanner op1scan = new Scanner(op1);
@@ -167,13 +168,14 @@ public class FracCalc {
         int op2den = op2scan.nextInt();
         op2scan.close();
         //perform operation
-        op1num *= (lcm(op1den,op2den)/op1den);
-        op1den *= (lcm(op1den,op2den)/op1den);
-        op2num *= (lcm(op1den,op2den)/op2den);
+        op1num *= (lcm(op1den, op2den) / op1den);
+        op1den *= (lcm(op1den, op2den) / op1den);
+        op2num *= (lcm(op1den, op2den) / op2den);
         op1num += op2num;
         //Simplify and return
-        return op1num/gcf(op1num,op1den) + " " + op1den/gcf(op1num,op1den);
+        return op1num / gcf(op1num, op1den) + " " + op1den / gcf(op1num, op1den);
     }
+
     public static String subtract(String op1, String op2) {
         //read input into nums and denoms
         Scanner op1scan = new Scanner(op1);
@@ -185,12 +187,12 @@ public class FracCalc {
         int op2den = op2scan.nextInt();
         op2scan.close();
         //perform operation
-        op1num *= (lcm(op1den,op2den)/op1den);
-        op1den *= (lcm(op1den,op2den)/op1den);
-        op2num *= (lcm(op1den,op2den)/op2den);
+        op1num *= (lcm(op1den, op2den) / op1den);
+        op1den *= (lcm(op1den, op2den) / op1den);
+        op2num *= (lcm(op1den, op2den) / op2den);
         op1num -= op2num;
         //Simplify and return
-        return op1num/gcf(op1num,op1den) + " " + op1den/gcf(op1num,op1den);
+        return op1num / gcf(op1num, op1den) + " " + op1den / gcf(op1num, op1den);
     }
 
     public static String divide(String op1, String op2) {
@@ -210,7 +212,7 @@ public class FracCalc {
         int finnum = op1num * op2den;
         int finden = op1den * op2num;
         //Simplify and return
-        return finnum/gcf(finnum, finden) + " " + finden/gcf(finnum, finden);
+        return finnum / gcf(finnum, finden) + " " + finden / gcf(finnum, finden);
     }
 
     public static String multiply(String op1, String op2) {
@@ -227,7 +229,7 @@ public class FracCalc {
         int finnum = op1num * op2num;
         int finden = op1den * op2den;
         //Simplify and return
-        return finnum/gcf(finnum, finden) + " " + finden/gcf(finnum, finden);
+        return finnum / gcf(finnum, finden) + " " + finden / gcf(finnum, finden);
     }
 
     public static String toImproper(String input) {
@@ -326,10 +328,7 @@ public class FracCalc {
 
     public static boolean isOperator(String input) {
         //To test if the given string is an operator
-        return (input.equals("+")
-                || input.equals("-")
-                || input.equals("*")
-                || input.equals("/"));
+        return (input.equals("+") || input.equals("-") || input.equals("*") || input.equals("/"));
     }
 
     public static int wordCount(String input) {
