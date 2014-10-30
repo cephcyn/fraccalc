@@ -50,7 +50,11 @@ public class FracCalc {
             if (token3.equals("0")) {
                 return "Fractions and mixed fractions cannot have denominator 0.";
             }
-            token1 = simplify(processImproper(token1, token2, token3));
+            token1 = processImproper(token1, token2, token3);
+            if (token1.equals("0")) {
+                return "You cannot divide by zero.";
+            }
+            token1 = simplify(token1);
         }
         stringscan.close();
         return token1;
@@ -199,6 +203,9 @@ public class FracCalc {
         int op2num = op2scan.nextInt();
         int op2den = op2scan.nextInt();
         op2scan.close();
+        if (op2num == 0) {
+            return "0";
+        }
         //perform operation, remember that 1/2 / 1/4 = 1/2 * 4/1
         int finnum = op1num * op2den;
         int finden = op1den * op2num;

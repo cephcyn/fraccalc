@@ -61,6 +61,9 @@ public class Test {
         test("1_3/0 + 1", "Fractions and mixed fractions cannot have denominator 0.");
         test("1 + 3/0", "Fractions and mixed fractions cannot have denominator 0.");
         test("1 + 1_3/0", "Fractions and mixed fractions cannot have denominator 0.");
+        test("3/4 / 0/9","You cannot divide by zero.");
+        test("32/3 / 0","You cannot divide by zero.");
+        test("1_3/4 / 0/9","You cannot divide by zero.");
         //test spacing 
         //(various cases, can't possibly exhaust all but as the scanner.next() ignores spacing it should be fine)
         test("        3 - 2        ", "1");
