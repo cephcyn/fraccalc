@@ -1,4 +1,3 @@
-
 import java.util.*;
 
 public class FracCalc {
@@ -6,11 +5,12 @@ public class FracCalc {
     public static String calc(String input) {
         input = input.toLowerCase();
         Scanner stringscan = new Scanner(input);
+        String token1 = "";
+        String token2 = "";
+        String token3 = "";
         //Detects special commands such as "toggle", "help" and "quit"
         //TODO implement toggle command
-        if (stringscan.hasNext("toggle") && wordCount(input) == 1) {
-            return "This function isn't working currently, but it hopefully will later!";
-        } else if (stringscan.hasNext("help") && wordCount(input) == 1) {
+        if (stringscan.hasNext("help") && wordCount(input) == 1) {
             //TODO read special commands in any case (uppercase, lowercase, mixed)
             //Returns help
             return helpText();
@@ -22,27 +22,38 @@ public class FracCalc {
             //TODO: Can we make this actually able to process multiple sets of operations???
             if (wordCount(input) < 3) {
                 return "Too few tokens.";
-            } else if ((wordCount(input) > 3) && (wordCount(input) % 2 != 0)) {
+            } else if ((wordCount(input) > 3) && (wordCount(input) % 2 == 0)) {
                 return "Too many tokens.";
             }
         }
-        //Parses string for the three tokens, then checks their validity
-        String token1 = stringscan.next();
-        String token2 = stringscan.next();
-        String token3 = stringscan.next();
-        if (!isOperator(token2)) {
-            return "\"" + token2 + "\" is not an acceptable operator.";
-        }
-        if (!isInteger(token1) && !isFraction(token1) && !isMixed(token1)) {
-            return "\"" + token1 + "\" is not an acceptable operand.";
-        }
-        if (!isInteger(token3) && !isFraction(token3) && !isMixed(token3)) {
-            return "\"" + token3 + "\" is not an acceptable operand.";
+        token1 = stringscan.next();
+        //after this point stringscan always has an even number of tokens going in
+        while (stringscan.hasNext()) {
+            //Parses string for next two tokens, then checks their validity
+            token2 = stringscan.next();
+            token3 = stringscan.next();
+            if (!isOperator(token2)) {
+                return "\"" + token2 + "\" is not an acceptable operator.";
+            }
+            if (!isInteger(token1) && !isFraction(token1) && !isMixed(token1)) {
+                return "\"" + token1 + "\" is not an acceptable operand.";
+            }
+            if (!isInteger(token3) && !isFraction(token3) && !isMixed(token3)) {
+                return "\"" + token3 + "\" is not an acceptable operand.";
+            }
+            //to improper, as well as division by 0 error checking
+            token1 = toImproper(token1);
+            if (token1.equals("0")) {
+                return "Fractions cannot have denominator 0.";
+            }
+            token3 = toImproper(token3);
+            if (token3.equals("0")) {
+                return "Fractions cannot have denominator 0.";
+            }
+            token1 = simplify(processImproper(token1, token2, token3));
         }
         stringscan.close();
-        token1 = toImproper(token1);
-        token3 = toImproper(token3);
-        return processImproper(token1, token2, token3);
+        return token1;
     }
 
     public static int gcf(int a, int b) {
@@ -56,6 +67,16 @@ public class FracCalc {
             b = trans;
         }
         return Math.abs(a);
+    }
+    
+    public static int lcm(int a, int b) {
+        //Finds the lowest common multiple between A and B
+        //Always returns positive value
+        int result = a;
+        while (result % b != 0) {
+            result += a;
+        }
+        return result;
     }
 
     public static String helpText() {
@@ -76,26 +97,130 @@ public class FracCalc {
                 + "<+ or - optional><positive whole number>_<positive whole number>/<positive whole number> \n"
                 + "The only accepted operators are \n"
                 + "+ (addition), - (subtraction), * (multiplication), and / (division). \n"
-                + "There are three special commands: \n"
-                + "Type \"toggle\" to switch between output as improper fractions or completely reduced output, \n"
-                + "\"help\" to get help (you're reading this right now!) \n"
-                + "or type \"quit\" to quit.";
+                + "There are two special commands: \n"
+                + "Type \"help\" to get help (you're reading this right now!) \n"
+                + "and type \"quit\" to quit.";
+    }
+
+    public static String simplify(String input) {
+        //input is DEFINITELY a valid fraction
+        //is called from both calc and working methods, so it has to be slash tolerant
+        input = spaceString(input);
+        Scanner inputscan = new Scanner(input);
+        int intp = 0;
+        int topp = inputscan.nextInt();
+        int botp = inputscan.nextInt();
+        inputscan.close();
+        boolean negative = topp < 0;
+        topp = Math.abs(topp);
+        while (topp >= botp) {
+            intp++;
+            topp -= botp;
+        }
+        //Assesses whether or not a negative sign is necessary, then returns.
+        if (topp == 0) {
+            if (negative) {
+                return "-" + intp;
+            } else {
+                return intp + "";
+            }
+        } else if (intp == 0) {
+            if (negative) {
+                return "-" + topp + "/" + botp;
+            } else {
+                return topp + "/" + botp;
+            }
+        } else {
+            if (negative) {
+                return "-" + intp + "_" + topp + "/" + botp;
+            } else {
+                return intp + "_" + topp + "/" + botp;
+            }
+        }
     }
 
     public static String processImproper(String token1, String token2, String token3) {
         //Performs the appropriate operation on the two fractions
-        //TODO finish this
         if (token2.equals("+")) {
+            return add(token1,token3);
         } else if (token2.equals("-")) {
+            return subtract(token1,token3);
         } else if (token2.equals("*")) {
-            return multiply(token1, token2);
+            return multiply(token1, token3);
         } else { //if token2.equals("/")
+            return divide(token1, token3);
         }
-        return token1 + token2 + token3;
     }
     
+    public static String add(String op1, String op2) {
+        //read input into nums and denoms
+        Scanner op1scan = new Scanner(op1);
+        int op1num = op1scan.nextInt();
+        int op1den = op1scan.nextInt();
+        op1scan.close();
+        Scanner op2scan = new Scanner(op2);
+        int op2num = op2scan.nextInt();
+        int op2den = op2scan.nextInt();
+        op2scan.close();
+        //perform operation
+        op1num *= (lcm(op1den,op2den)/op1den);
+        op1den *= (lcm(op1den,op2den)/op1den);
+        op2num *= (lcm(op1den,op2den)/op2den);
+        op1num += op2num;
+        //Simplify and return
+        return op1num/gcf(op1num,op1den) + " " + op1den/gcf(op1num,op1den);
+    }
+    public static String subtract(String op1, String op2) {
+        //read input into nums and denoms
+        Scanner op1scan = new Scanner(op1);
+        int op1num = op1scan.nextInt();
+        int op1den = op1scan.nextInt();
+        op1scan.close();
+        Scanner op2scan = new Scanner(op2);
+        int op2num = op2scan.nextInt();
+        int op2den = op2scan.nextInt();
+        op2scan.close();
+        //perform operation
+        op1num *= (lcm(op1den,op2den)/op1den);
+        op1den *= (lcm(op1den,op2den)/op1den);
+        op2num *= (lcm(op1den,op2den)/op2den);
+        op1num -= op2num;
+        //Simplify and return
+        return op1num/gcf(op1num,op1den) + " " + op1den/gcf(op1num,op1den);
+    }
+
+    public static String divide(String op1, String op2) {
+        //read input into nums and denoms
+        Scanner op1scan = new Scanner(op1);
+        int op1num = op1scan.nextInt();
+        int op1den = op1scan.nextInt();
+        op1scan.close();
+        Scanner op2scan = new Scanner(op2);
+        int op2num = op2scan.nextInt();
+        int op2den = op2scan.nextInt();
+        op2scan.close();
+        //perform operation, remember that 1/2 / 1/4 = 1/2 * 4/1
+        int finnum = op1num * op2den;
+        int finden = op1den * op2num;
+        //Simplify and return
+        return finnum/gcf(finnum, finden) + " " + finden/gcf(finnum, finden);
+    }
+
     public static String multiply(String op1, String op2) {
-        
+        //read input into nums and denoms
+        Scanner op1scan = new Scanner(op1);
+        int op1num = op1scan.nextInt();
+        int op1den = op1scan.nextInt();
+        op1scan.close();
+        Scanner op2scan = new Scanner(op2);
+        int op2num = op2scan.nextInt();
+        int op2den = op2scan.nextInt();
+        op2scan.close();
+        //perform operation
+        int finnum = op1num * op2num;
+        int finden = op1den * op2den;
+        //Simplify and return
+        return finnum/gcf(finnum, finden) + " " + finden/gcf(finnum, finden);
     }
 
     public static String toImproper(String input) {
@@ -124,6 +249,9 @@ public class FracCalc {
             intscan.close();
         }
         //combines int into fraction
+        if (botpart == 0) {
+            return "0";
+        }
         if (intpart >= 0) {
             toppart += intpart * botpart;
         } else {

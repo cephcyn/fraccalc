@@ -7,7 +7,7 @@ public class Test {
         test("_ isAnUnderScore", "Too few tokens.");
         test("12", "Too few tokens.");
         test("12 34 56 78", "Too many tokens.");
-        test("1/2 + 3/4 - 4", "Too many tokens.");
+        test("1/2 + 3/4 - 4 +", "Too many tokens.");
         //test first operand validity
         test("3.2 - 2", "\"3.2\" is not an acceptable operand.");
         test("3/-2 - 2", "\"3/-2\" is not an acceptable operand.");
@@ -22,34 +22,43 @@ public class Test {
         test("3 - 2_2/-3", "\"2_2/-3\" is not an acceptable operand.");
         //TODO replace these with actual answers as program advances
         //test first operand valid cases
-        test("3 - 2", "3/1 - 2/1");
-        test("-3 - 2", "-3/1 - 2/1");
-        test("+3 - 2", "3/1 - 2/1");
-        test("3/2 - 2", "3/2 - 2/1");
-        test("-3/2 - 2", "-3/2 - 2/1");
-        test("+3/2 - 2", "3/2 - 2/1");
-        test("3_3/2 - 2", "9/2 - 2/1");
-        test("-3_3/2 - 2", "-9/2 - 2/1");
-        test("+3_3/2 - 2", "9/2 - 2/1");
+        //(various cases, can't possibly exhaust all)
+        test("3 - 2", "1");
+        test("-3 - 2", "-5");
+        test("+3 - 2", "1");
+        test("3/2 - 2", "-1/2");
+        test("-3/2 - 2", "-3_1/2");
+        test("+3/2 - 2", "-1/2");
+        test("3_3/2 - 2", "2_1/2");
+        test("-3_3/2 - 2", "-6_1/2");
+        test("+3_3/2 - 2", "2_1/2");
         //test valid operator cases
-        test("3 - 2", "3/1 - 2/1");
-        test("3 + 2", "3/1 + 2/1");
-        test("3 * 2", "3/1 * 2/1");
-        test("3 / 2", "3/1 / 2/1");
+        //(various cases, can't possibly exhaust all)
+        test("3 - 2", "1");
+        test("3 + 2", "5");
+        test("3 * 2", "6");
+        test("3 / 2", "1_1/2");
         //test second operand valid cases
-        test("3 - 1", "3/1 - 1/1");
-        test("3 - -1", "3/1 - -1/1");
-        test("3 - +1", "3/1 - 1/1");
-        test("3 - 1/2", "3/1 - 1/2");
-        test("3 - -1/2", "3/1 - -1/2");
-        test("3 - +1/2", "3/1 - 1/2");
-        test("3 - 1_1/2", "3/1 - 3/2");
-        test("3 - -1_1/2", "3/1 - -3/2");
-        test("3 - +1_1/2", "3/1 - 3/2");
+        //(various cases, can't possibly exhaust all)
+        test("3 - 1", "2");
+        test("3 - -1", "4");
+        test("3 - +1", "2");
+        test("3 - 1/2", "2_1/2");
+        test("3 - -1/2", "3_1/2");
+        test("3 - +1/2", "2_1/2");
+        test("3 - 1_1/2", "1_1/2");
+        test("3 - -1_1/2", "4_1/2");
+        test("3 - +1_1/2", "1_1/2");
+        //test multiple operations cases
+        //(various cases, can't possibly exhaust all)
+        test("3 - 1 + 3", "5");
+        test("3 - 1 * 4", "8");
+        test("3/2 - 1/2 * 4", "4");
+        test("5/4 - 1/2 / 3", "1/4");
         //test spacing 
         //(various cases, can't possibly exhaust all but as the scanner.next() ignores spacing it should be fine)
-        test("        3 - 2        ", "3/1 - 2/1");
-        test("3         - 2", "3/1 - 2/1");
+        test("        3 - 2        ", "1");
+        test("3         - 2", "1");
         test("3- 2         ", "Too few tokens."); //Not having a space between operator and operand is not good xD
         //tests special commands (really anything involving special commands)
         test("quit", "Goodbye.");
@@ -59,11 +68,7 @@ public class Test {
         test("quit quit", "Too few tokens.");
         test("quit quit quit", "\"quit\" is not an acceptable operator.");
         test("quit quit quit quit", "Too many tokens.");
-        test("toggle", "This function isn't working currently, but it hopefully will later!");
-        test("    toggle    ", "This function isn't working currently, but it hopefully will later!");
-        test("toggle toggle", "Too few tokens.");
-        test("toggle toggle toggle", "\"toggle\" is not an acceptable operator.");
-        test("toggle toggle toggle toggle", "Too many tokens.");
+        test("quit quit quit quit quit", "\"quit\" is not an acceptable operator.");
         test("help", FracCalc.helpText());
         test("HELP", FracCalc.helpText());
         test("HeLp", FracCalc.helpText());
@@ -71,6 +76,7 @@ public class Test {
         test("help help", "Too few tokens.");
         test("help help help", "\"help\" is not an acceptable operator.");
         test("help help help help", "Too many tokens.");
+        test("help help help help help", "\"help\" is not an acceptable operator.");
     }
 
 //  _____   ____    _   _  ____ _______   ______ _____ _____ _______ 
