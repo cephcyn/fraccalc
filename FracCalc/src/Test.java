@@ -20,7 +20,6 @@ public class Test {
         test("3 - 2/-3", "\"2/-3\" is not an acceptable operand.");
         test("3 - 2_-2/3", "\"2_-2/3\" is not an acceptable operand.");
         test("3 - 2_2/-3", "\"2_2/-3\" is not an acceptable operand.");
-        //TODO replace these with actual answers as program advances
         //test first operand valid cases
         //(various cases, can't possibly exhaust all)
         test("3 - 2", "1");
@@ -68,6 +67,7 @@ public class Test {
         //(various cases, can't possibly exhaust all but as the scanner.next() ignores spacing it should be fine)
         test("        3 - 2        ", "1");
         test("3         - 2", "1");
+        test("3         - 2  +  5", "6");
         test("3- 2         ", "Too few tokens."); //Not having a space between operator and operand is not good xD
         //tests special commands (really anything involving special commands)
         test("quit", "Goodbye.");

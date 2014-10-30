@@ -145,28 +145,31 @@ public class FracCalc {
     }
 
     public static String processImproper(String token1, String token2, String token3) {
-        //Performs the appropriate operation on the two fractions
-        if (token2.equals("+")) {
-            return add(token1, token3);
-        } else if (token2.equals("-")) {
-            return subtract(token1, token3);
-        } else if (token2.equals("*")) {
-            return multiply(token1, token3);
-        } else { //if token2.equals("/")
-            return divide(token1, token3);
-        }
-    }
-
-    public static String add(String op1, String op2) {
         //read input into nums and denoms
-        Scanner op1scan = new Scanner(op1);
+        Scanner op1scan = new Scanner(token1);
         int op1num = op1scan.nextInt();
         int op1den = op1scan.nextInt();
         op1scan.close();
-        Scanner op2scan = new Scanner(op2);
+        Scanner op2scan = new Scanner(token3);
         int op2num = op2scan.nextInt();
         int op2den = op2scan.nextInt();
         op2scan.close();
+        //Performs the appropriate operation on the two fractions
+        if (token2.equals("+")) {
+            return add(op1num, op1den, op2num, op2den);
+        } else if (token2.equals("-")) {
+            return subtract(op1num, op1den, op2num, op2den);
+        } else if (token2.equals("*")) {
+            return multiply(op1num, op1den, op2num, op2den);
+        } else { //if token2.equals("/")
+            if (op2num == 0) {
+                return "0";
+            }
+            return divide(op1num, op1den, op2num, op2den);
+        }
+    }
+
+    public static String add(int op1num, int op1den, int op2num, int op2den) {
         //perform operation
         op1num *= (lcm(op1den, op2den) / op1den);
         op1den *= (lcm(op1den, op2den) / op1den);
@@ -176,16 +179,7 @@ public class FracCalc {
         return op1num / gcf(op1num, op1den) + " " + op1den / gcf(op1num, op1den);
     }
 
-    public static String subtract(String op1, String op2) {
-        //read input into nums and denoms
-        Scanner op1scan = new Scanner(op1);
-        int op1num = op1scan.nextInt();
-        int op1den = op1scan.nextInt();
-        op1scan.close();
-        Scanner op2scan = new Scanner(op2);
-        int op2num = op2scan.nextInt();
-        int op2den = op2scan.nextInt();
-        op2scan.close();
+    public static String subtract(int op1num, int op1den, int op2num, int op2den) {
         //perform operation
         op1num *= (lcm(op1den, op2den) / op1den);
         op1den *= (lcm(op1den, op2den) / op1den);
@@ -195,16 +189,7 @@ public class FracCalc {
         return op1num / gcf(op1num, op1den) + " " + op1den / gcf(op1num, op1den);
     }
 
-    public static String divide(String op1, String op2) {
-        //read input into nums and denoms
-        Scanner op1scan = new Scanner(op1);
-        int op1num = op1scan.nextInt();
-        int op1den = op1scan.nextInt();
-        op1scan.close();
-        Scanner op2scan = new Scanner(op2);
-        int op2num = op2scan.nextInt();
-        int op2den = op2scan.nextInt();
-        op2scan.close();
+    public static String divide(int op1num, int op1den, int op2num, int op2den) {
         if (op2num == 0) {
             return "0";
         }
@@ -215,16 +200,7 @@ public class FracCalc {
         return finnum / gcf(finnum, finden) + " " + finden / gcf(finnum, finden);
     }
 
-    public static String multiply(String op1, String op2) {
-        //read input into nums and denoms
-        Scanner op1scan = new Scanner(op1);
-        int op1num = op1scan.nextInt();
-        int op1den = op1scan.nextInt();
-        op1scan.close();
-        Scanner op2scan = new Scanner(op2);
-        int op2num = op2scan.nextInt();
-        int op2den = op2scan.nextInt();
-        op2scan.close();
+    public static String multiply(int op1num, int op1den, int op2num, int op2den) {
         //perform operation
         int finnum = op1num * op2num;
         int finden = op1den * op2den;
