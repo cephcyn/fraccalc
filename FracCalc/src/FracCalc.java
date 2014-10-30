@@ -10,7 +10,6 @@ public class FracCalc {
         String token2 = "";
         String token3 = "";
         //Detects special commands such as "toggle", "help" and "quit"
-        //TODO implement toggle command
         if (stringscan.hasNext("help") && wordCount(input) == 1) {
             //TODO read special commands in any case (uppercase, lowercase, mixed)
             //Returns help
@@ -20,7 +19,7 @@ public class FracCalc {
             return "Goodbye.";
         } else {
             //Tests token count, returns error if not acceptable
-            //TODO: Can we make this actually able to process multiple sets of operations???
+            //Recognizes if there's an odd word count, and multiple commands
             if (wordCount(input) < 3) {
                 return "Too few tokens.";
             } else if ((wordCount(input) > 3) && (wordCount(input) % 2 == 0)) {
