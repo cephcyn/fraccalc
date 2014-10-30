@@ -11,7 +11,6 @@ public class FracCalc {
         String token3 = "";
         //Detects special commands such as "toggle", "help" and "quit"
         if (stringscan.hasNext("help") && wordCount(input) == 1) {
-            //TODO read special commands in any case (uppercase, lowercase, mixed)
             //Returns help
             return helpText();
         } else if (stringscan.hasNext("quit") && wordCount(input) == 1) {
@@ -84,7 +83,6 @@ public class FracCalc {
     }
 
     public static String helpText() {
-        //TODO update help text as needed
         return "FracCalc takes several integers, fractions, or mixed fractions and \n"
                 + "some operators, and does the appropriate operation(s) on them, then \n"
                 + "returns an appropriately simplified integer, fraction, or mixed fraction. \n"
