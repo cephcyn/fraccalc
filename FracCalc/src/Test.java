@@ -24,15 +24,15 @@ public class Test {
         test("3 - 2_2\\3", "\"2_2\\3\" is not an acceptable operand.");
         //test first operand valid cases
         //(various cases, can't possibly exhaust all)
-        test("3 - 2", "1");
-        test("-3 - 2", "-5");
-        test("+3 - 2", "1");
-        test("3/2 - 2", "-1/2");
-        test("-3/2 - 2", "-3_1/2");
-        test("+3/2 - 2", "-1/2");
-        test("3_3/2 - 2", "2_1/2");
-        test("-3_3/2 - 2", "-6_1/2");
-        test("+3_3/2 - 2", "2_1/2");
+        test("3 - 1", "2");
+        test("-3 - 1", "-4");
+        test("+3 - 1", "0");
+        test("3/2 - 1", "1/2");
+        test("-3/2 - 1", "-2_1/2");
+        test("+3/2 - 1", "1/2");
+        test("3_3/2 - 1", "3_1/2");
+        test("-3_3/2 - 1", "-5_1/2");
+        test("+3_3/2 - 1", "3_1/2");
         //test valid operator cases
         //(various cases, can't possibly exhaust all)
         test("3 - 2", "1");
@@ -41,15 +41,15 @@ public class Test {
         test("3 / 2", "1_1/2");
         //test second operand valid cases
         //(various cases, can't possibly exhaust all)
-        test("3 - 1", "2");
-        test("3 - -1", "4");
-        test("3 - +1", "2");
-        test("3 - 1/2", "2_1/2");
-        test("3 - -1/2", "3_1/2");
-        test("3 - +1/2", "2_1/2");
-        test("3 - 1_1/2", "1_1/2");
-        test("3 - -1_1/2", "4_1/2");
-        test("3 - +1_1/2", "1_1/2");
+        test("2 - 1", "1");
+        test("2 - -1", "3");
+        test("2 - +1", "1");
+        test("2 - 1/2", "1_1/2");
+        test("2 - -1/2", "2_1/2");
+        test("2 - +1/2", "1_1/2");
+        test("2 - 1_1/2", "1/2");
+        test("2 - -1_1/2", "3_1/2");
+        test("2 - +1_1/2", "1/2");
         //test multiple operations cases
         //(various cases, can't possibly exhaust all)
         test("3 - 1 + 3", "5");
