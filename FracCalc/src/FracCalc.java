@@ -9,7 +9,7 @@ public class FracCalc {
         String token1 = "";
         String token2 = "";
         String token3 = "";
-        //Detects special commands such as "toggle", "help" and "quit"
+        //Detects special commands such as "help" and "quit"
         if (stringscan.hasNext("help") && wordCount(input) == 1) {
             //Returns help
             return helpText();
