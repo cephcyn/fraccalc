@@ -272,6 +272,7 @@ public class FracCalc {
         for (int i = 0; i < input.length(); i++) {
             if (input.charAt(i) == '/') {
                 fracline = i;
+                //TODO what if the input is /3 or 3/?
                 if (isInteger(input.substring(0, fracline))
                         && isInteger(input.substring(fracline + 1))
                         && Character.isDigit(input.charAt(fracline + 1))) {
