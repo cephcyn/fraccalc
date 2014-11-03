@@ -273,6 +273,9 @@ public class FracCalc {
             if (input.charAt(i) == '/') {
                 fracline = i;
                 //TODO what if the input is /3 or 3/?
+                if (input.indexOf('/') == 0 || input.indexOf('/') == input.length() - 1) {
+                    return false;
+                }
                 if (isInteger(input.substring(0, fracline))
                         && isInteger(input.substring(fracline + 1))
                         && Character.isDigit(input.charAt(fracline + 1))) {
@@ -290,6 +293,9 @@ public class FracCalc {
         for (int i = 0; i < input.length(); i++) {
             if (input.charAt(i) == '_') {
                 underdash = i;
+                if (input.indexOf('_') == 0 || input.indexOf('_') == input.length() - 1) {
+                    return false;
+                }
                 if (isInteger(input.substring(0, underdash))
                         && isFraction(input.substring(underdash + 1))
                         && Character.isDigit(input.charAt(underdash + 1))) {
