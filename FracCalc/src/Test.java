@@ -13,7 +13,7 @@ public class Test {
         test("3/-2 - 2", "\"3/-2\" is not an acceptable operand.");
         test("3_-3/2 - 2", "\"3_-3/2\" is not an acceptable operand.");
         test("3_3/-2 - 2", "\"3_3/-2\" is not an acceptable operand.");
-        test("3_3\\2 - 2", "\"3_3\\-2\" is not an acceptable operand.");
+        test("3_3\\2 - 2", "\"3_3\\2\" is not an acceptable operand.");
         test("3/ - 2", "\"3/\" is not an acceptable operand.");
         test("_3/3 - 2", "\"_3/3\" is not an acceptable operand.");
         //test operator validity
@@ -24,13 +24,13 @@ public class Test {
         test("3 - 2_-2/3", "\"2_-2/3\" is not an acceptable operand.");
         test("3 - 2_2/-3", "\"2_2/-3\" is not an acceptable operand.");
         test("3 - 2_2\\3", "\"2_2\\3\" is not an acceptable operand.");
-        test("3 - 2/", "\"2./\" is not an acceptable operand.");
+        test("3 - 2/", "\"2/\" is not an acceptable operand.");
         test("3 - _2/2", "\"_2/2\" is not an acceptable operand.");
         //test first operand valid cases
         //(various cases, can't possibly exhaust all)
         test("3 - 1", "2");
         test("-3 - 1", "-4");
-        test("+3 - 1", "0");
+        test("+3 - 1", "2");
         test("3/2 - 1", "1/2");
         test("-3/2 - 1", "-2_1/2");
         test("+3/2 - 1", "1/2");
