@@ -7,10 +7,10 @@ public class Program {
         Scanner console = new Scanner(System.in);
         //program introduces itself
         System.out.println("FracCalc by Zhou, Joyce");
-        //fencepost first part
+        //not-a-fencepost first part
         String input = "";
         String lastdisplay = "";
-        //fencepost second part
+        //not-a-fencepost second part
         while (!lastdisplay.equals("Goodbye.")) {
             System.out.print("> ");
             input = console.nextLine();
