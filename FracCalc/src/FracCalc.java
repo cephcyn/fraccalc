@@ -9,6 +9,7 @@ public class FracCalc {
         String token1 = "";
         String token2 = "";
         String token3 = "";
+
         //Detects special commands such as "help" and "quit"
         if (stringscan.hasNext("help") && wordCount(input) == 1) {
             //Returns help
@@ -25,12 +26,14 @@ public class FracCalc {
                 return "Too many tokens.";
             }
         }
+
         token1 = stringscan.next();
         //after this point stringscan always has an even number of tokens going in
         while (stringscan.hasNext()) {
             //Parses string for next two tokens, then checks their validity
             token2 = stringscan.next();
             token3 = stringscan.next();
+
             if (!isOperator(token2)) {
                 return "\"" + token2 + "\" is not an acceptable operator.";
             }
@@ -40,6 +43,7 @@ public class FracCalc {
             if (!isInteger(token3) && !isFraction(token3) && !isMixed(token3)) {
                 return "\"" + token3 + "\" is not an acceptable operand.";
             }
+
             //to improper, as well as division by 0 error checking
             token1 = toImproper(token1);
             if (token1.equals("0")) {
@@ -54,6 +58,7 @@ public class FracCalc {
                 return "You cannot divide by zero.";
             }
             token1 = simplify(token1);
+
         }
         stringscan.close();
         return token1;
@@ -112,27 +117,30 @@ public class FracCalc {
         int intp = 0;
         int topp = inputscan.nextInt();
         int botp = inputscan.nextInt();
+
         inputscan.close();
         boolean negative = topp < 0;
         topp = Math.abs(topp);
+
         while (topp >= botp) {
             intp++;
             topp -= botp;
         }
         //Assesses whether or not a negative sign is necessary, then returns.
-        if (topp == 0) {
+        if (topp == 0) { //if it's an integer
             if (negative) {
                 return "-" + intp;
             } else {
-                return intp + "";
+                return "" + intp;
             }
-        } else if (intp == 0) {
+        }
+        if (intp == 0) { //if it's a fraction
             if (negative) {
                 return "-" + topp + "/" + botp;
             } else {
                 return topp + "/" + botp;
             }
-        } else {
+        } else { //if it's a mixed fraction
             if (negative) {
                 return "-" + intp + "_" + topp + "/" + botp;
             } else {
@@ -147,10 +155,12 @@ public class FracCalc {
         int op1num = op1scan.nextInt();
         int op1den = op1scan.nextInt();
         op1scan.close();
+
         Scanner op2scan = new Scanner(token3);
         int op2num = op2scan.nextInt();
         int op2den = op2scan.nextInt();
         op2scan.close();
+
         //Performs the appropriate operation on the two fractions
         if (token2.equals("+")) {
             return add(op1num, op1den, op2num, op2den);
@@ -212,7 +222,8 @@ public class FracCalc {
         int intpart = 0;
         int toppart = 0;
         int botpart = 1;
-        //parses spaced string and turns it into a set of three ints
+
+        //reads spaced string and turns it into a set of three ints
         if (isMixed(input)) {
             Scanner mixscan = new Scanner(spaced);
             intpart = mixscan.nextInt();
@@ -230,6 +241,7 @@ public class FracCalc {
             intpart = intscan.nextInt();
             intscan.close();
         }
+
         //combines int into fraction
         if (botpart == 0) {
             return "0";
