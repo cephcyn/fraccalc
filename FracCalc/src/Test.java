@@ -63,6 +63,13 @@ public class Test {
         test("3/2 - 1/2 * 4", "4");
         test("5/4 - 1/2 / 3", "1/4");
         test("1/12 / 1/12 + 5/3", "2_2/3");
+        //test extraneous numbers cases
+        //(various cases, can't possibly exhaust all)
+        test("0000 + 00000000", "0");
+        test("000001 + 0000002", "3");
+        test("000002/3 + 2/3", "1_1/3");
+        test("2/0000003 + 2/3", "1_1/3");
+        test("1_0000002/000000003 + 1/3", "2");
         //test divide by zero
         test("3/0 + 1", "Fractions and mixed fractions cannot have denominator 0.");
         test("1_3/0 + 1", "Fractions and mixed fractions cannot have denominator 0.");
