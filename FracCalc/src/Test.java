@@ -78,6 +78,7 @@ public class Test {
         test("3         - 2  +  5", "6");
         test("3- 2         ", "Too few tokens."); //Not having a space between operator and operand is not good xD
         //tests special commands (really anything involving special commands)
+        //begin 'quit' tests
         test("quit", "Goodbye.");
         test("QUIT", "Goodbye.");
         test("QuIt", "Goodbye.");
@@ -86,6 +87,7 @@ public class Test {
         test("quit quit quit", "\"quit\" is not an acceptable operator.");
         test("quit quit quit quit", "Too many tokens.");
         test("quit quit quit quit quit", "\"quit\" is not an acceptable operator.");
+        //begin 'help' tests
         test("help", FracCalc.helpText());
         test("HELP", FracCalc.helpText());
         test("HeLp", FracCalc.helpText());
@@ -96,7 +98,7 @@ public class Test {
         test("help help help help help", "\"help\" is not an acceptable operator.");
         //begin toggle tests (as the improper variable is persistent, this has to be the last category)
         test("toggle", "Return input as improper fractions is now: true");
-        test("toggle", "Return input as improper fractions is now: false");
+        test("tOgGlE", "Return input as improper fractions is now: false");
         test("toggle", "Return input as improper fractions is now: true");
         test("3/5 + 3/5", "6/5");
         test("2/7 + 2/7", "4/7");
