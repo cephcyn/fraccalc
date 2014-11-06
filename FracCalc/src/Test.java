@@ -94,6 +94,21 @@ public class Test {
         test("help help help", "\"help\" is not an acceptable operator.");
         test("help help help help", "Too many tokens.");
         test("help help help help help", "\"help\" is not an acceptable operator.");
+        //begin toggle tests (as the improper variable is persistent, this has to be the last category)
+        test("toggle", "Return input as improper fractions is now: true");
+        test("toggle", "Return input as improper fractions is now: false");
+        test("toggle", "Return input as improper fractions is now: true");
+        test("3/5 + 3/5", "6/5");
+        test("2/7 + 2/7", "4/7");
+        test("3/5 + 3/5 + 3/5", "9/5");
+        test("toggle", "Return input as improper fractions is now: false");
+        test("3/5 + 3/5", "1_1/5");
+        test("2/7 + 2/7", "4/7");
+        test("3/5 + 3/5 + 3/5", "1_4/5");
+        test("toggle toggle", "Too few tokens.");
+        test("toggle toggle toggle", "\"toggle\" is not an acceptable operator.");
+        test("toggle toggle toggle toggle", "Too many tokens.");
+        test("toggle toggle toggle toggle toggle", "\"toggle\" is not an acceptable operator.");
     }
 
 //  _____   ____    _   _  ____ _______   ______ _____ _____ _______ 

@@ -3,6 +3,8 @@ import java.util.*;
 
 public class FracCalc {
 
+    public static boolean improper = false;
+
     public static String calc(String input) {
         input = input.toLowerCase();
         Scanner stringscan = new Scanner(input);
@@ -11,7 +13,10 @@ public class FracCalc {
         String token3 = "";
 
         //Detects special commands such as "help" and "quit"
-        if (stringscan.hasNext("help") && wordCount(input) == 1) {
+        if (stringscan.hasNext("toggle") && wordCount(input) == 1) {
+            improper = toggle(improper);
+            return "Return input as improper fractions is now: " + improper;
+        } else if (stringscan.hasNext("help") && wordCount(input) == 1) {
             //Returns help
             return helpText();
         } else if (stringscan.hasNext("quit") && wordCount(input) == 1) {
@@ -60,8 +65,16 @@ public class FracCalc {
             token1 = simplify(token1);
 
         }
+        if (improper) {
+            token1 = toImproper(token1).replace(' ', '/');
+        }
         stringscan.close();
         return token1;
+    }
+
+    public static boolean toggle(boolean in) {
+        //toggles between true and false of the input
+        return !in;
     }
 
     public static int gcf(int a, int b) {
@@ -104,8 +117,9 @@ public class FracCalc {
                 + "<+ or - optional><positive whole number>_<positive whole number>/<positive whole number> \n"
                 + "The only accepted operators are \n"
                 + "+ (addition), - (subtraction), * (multiplication), and / (division). \n"
-                + "There are two special commands: \n"
-                + "Type \"help\" to get help (you're reading this right now!) \n"
+                + "There are three special commands: \n"
+                + "Type \"toggle\" to toggle between returning input as improper and simplified, \n"
+                + "\"help\" to get help (you're reading this right now!) \n"
                 + "and type \"quit\" to quit.";
     }
 
@@ -236,7 +250,7 @@ public class FracCalc {
             botpart = fracscan.nextInt();
             fracscan.close();
         } else {
-            //Ints should also have a fracline... example, "7" -> "7/1"
+            //Ints should also have a fracline(space?)... example, "7" -> "7 1"
             Scanner intscan = new Scanner(spaced);
             intpart = intscan.nextInt();
             intscan.close();
@@ -254,7 +268,7 @@ public class FracCalc {
         }
         output = toppart + " " + botpart;
         return output;
-        //
+        //output is numbers with spaces ("6/3" = "6 3")
     }
 
     public static String spaceString(String input) {
