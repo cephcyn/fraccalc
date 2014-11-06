@@ -8,7 +8,7 @@ public class Program {
         //program introduces itself
         System.out.println("FracCalc by Zhou, Joyce");
         //not-a-fencepost first part
-        String input = "";
+        String input;
         String lastdisplay = "";
         //not-a-fencepost second part
         while (!lastdisplay.equals("Goodbye.")) {
