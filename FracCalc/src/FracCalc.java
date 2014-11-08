@@ -14,7 +14,7 @@ public class FracCalc {
 
         //Detects special commands such as "help" and "quit"
         if (stringscan.hasNext("toggle") && wordCount(input) == 1) {
-            improper = toggle(improper);
+            improper = !improper;
             return "Return input as improper fractions is now: " + improper;
         } else if (stringscan.hasNext("help") && wordCount(input) == 1) {
             //Returns help
@@ -70,11 +70,6 @@ public class FracCalc {
         }
         stringscan.close();
         return token1;
-    }
-
-    public static boolean toggle(boolean in) {
-        //toggles between true and false of the input
-        return !in;
     }
 
     public static int gcf(int a, int b) {
