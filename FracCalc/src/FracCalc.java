@@ -26,9 +26,9 @@ public class FracCalc {
             //Tests token count, returns error if not acceptable
             //Recognizes if there's an odd word count, and multiple commands
             if (wordCount(input) < 3) {
-                return "Too much input.";
-            } else if ((wordCount(input) > 3) && (wordCount(input) % 2 == 0)) {
                 return "Too little input.";
+            } else if ((wordCount(input) > 3) && (wordCount(input) % 2 == 0)) {
+                return "Too much input.";
             }
         }
 
@@ -208,6 +208,11 @@ public class FracCalc {
     public static String divide(int op1num, int op1den, int op2num, int op2den) {
         if (op2num == 0) {
             return "0";
+        }
+        //prevent 1/2 / -1/2 and the like from being a disaster
+        if (op2num < 0) {
+            op2den *= -1;
+            op2num *= -1;
         }
         //perform operation, remember that 1/2 / 1/4 = 1/2 * 4/1
         int finnum = op1num * op2den;

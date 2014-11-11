@@ -137,11 +137,11 @@ public class Test {
         test("quit  ", "Goodbye.");
         test("  quit  ", "Goodbye.");
         test("QuIt", "Goodbye.");
-        test("help", "Help text.");
-        test("  help", "Help text.");
-        test("help  ", "Help text.");
-        test("  help  ", "Help text.");
-        test("HelP", "Help text.");
+        test("help", FracCalc.helpText());
+        test("  help", FracCalc.helpText());
+        test("help  ", FracCalc.helpText());
+        test("  help  ", FracCalc.helpText());
+        test("HelP", FracCalc.helpText());
         test("quit it", "Too little input.");
         test("quit talking to me", "Too much input.");
         test("help me", "Too little input.");
@@ -155,7 +155,7 @@ public class Test {
         test("1_1/-1 + 1_1/-1", "\"1_1/-1\" is not an acceptable operand.");
         test("1_+1/1 + 1_+1/1", "\"1_+1/1\" is not an acceptable operand.");
         test("1_1/+1 + 1_1/+1", "\"1_1/+1\" is not an acceptable operand.");
-        test("1a1_1/1 + 1a1_1/1", "\"1a_1/1\" is not an acceptable operand.");
+        test("1a1_1/1 + 1a1_1/1", "\"1a1_1/1\" is not an acceptable operand.");
         test("1_1a1/1 + 1_1a1/1", "\"1_1a1/1\" is not an acceptable operand.");
         test("1_1/1a1 + 1_1/1a1", "\"1_1/1a1\" is not an acceptable operand.");
         test("a_1/1 + a_1/1", "\"a_1/1\" is not an acceptable operand.");
@@ -172,10 +172,10 @@ public class Test {
         test("1 a 1", "\"a\" is not an acceptable operator.");
         test("1 % 1", "\"%\" is not an acceptable operator.");
         test("1a1_1/1 + 1a1_1/1", "\"1a1_1/1\" is not an acceptable operand.");
-        test("1 + 1 a", "\"1 a\" is not an acceptable operand.");
+        test("1 + 1 a", "Too much input.");
         test("--1 + --1", "\"--1\" is not an acceptable operand.");
         test("+-1 + +-1", "\"+-1\" is not an acceptable operand.");
-        test("++1 + ++1", "\"++\" is not an acceptable operand.");
+        test("++1 + ++1", "\"++1\" is not an acceptable operand.");
         // valid with extra spaces
         test("  1 + 1", "2");
         test("1   + 1", "2");
