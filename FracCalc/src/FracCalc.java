@@ -26,9 +26,9 @@ public class FracCalc {
             //Tests token count, returns error if not acceptable
             //Recognizes if there's an odd word count, and multiple commands
             if (wordCount(input) < 3) {
-                return "Too few tokens.";
+                return "Too much input.";
             } else if ((wordCount(input) > 3) && (wordCount(input) % 2 == 0)) {
-                return "Too many tokens.";
+                return "Too little input.";
             }
         }
 
