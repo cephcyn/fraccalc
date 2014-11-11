@@ -131,7 +131,7 @@ public class Test {
         test("toggle toggle toggle toggle", "Too much input.");
         test("toggle toggle toggle toggle toggle", "\"toggle\" is not an acceptable operator.");
 
-        //Teachers' test cases follow
+        //Teachers' test cases follow:
         test("quit", "Goodbye.");
         test("  quit", "Goodbye.");
         test("quit  ", "Goodbye.");
