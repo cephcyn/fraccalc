@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 
 public class Fraction {
@@ -5,112 +6,141 @@ public class Fraction {
     private int numerator;
     private int denominator;
 
-    public Fraction(int whole, int num, int den) {
-        //Error checking
-        if (denominator <= 0) {
-            throw new IllegalArgumentException("Denominator must be positive.");
+    public Fraction(int num, int den) {
+        //prevent negative denom
+        if (den <= 0) {
+            throw new IllegalArgumentException("Denominator must be positive!");
         }
-        //is it negative?
-        int negval = 1;
-        if (whole < 0) {
-            negval = -1;
-        }
-        //setting
+        //init
         this.denominator = den;
-        this.numerator = whole * den + num * negval;
+        this.numerator = num;
+        //simplify
         simplify();
-    }
-
-    public Fraction(int numerator, int denominator) {
-        //Error checking
-        if (denominator <= 0) {
-            throw new IllegalArgumentException("Denominator must be positive.");
-        }
-        //setting
-        this.denominator = denominator;
-        this.numerator = numerator;
-        simplify();
-
     }
 
     public Fraction(int whole) {
-        //I can't think of anything that would screw THIS up...
-        this.numerator = whole;
-        this.denominator = 1;
+        this(whole, 1);
     }
 
-    public Fraction(String s) {
-        //reading the string
-        s = s.replace("/", " ").replace("_", " ");
-        Scanner sscan = new Scanner(s);
-        int twhole;
-        int tnum;
-        int tden;
-        if (wordCount(s) == 3) {
-            //mixed fraction
-            twhole = sscan.nextInt();
-            tnum = sscan.nextInt();
-            tden = sscan.nextInt();
-        } else if (wordCount(s) == 2) {
-            //fraction
-            twhole = 0;
-            tnum = sscan.nextInt();
-            tden = sscan.nextInt();
-        } else {
-            //integer
-            twhole = sscan.nextInt();
-            tnum = 0;
-            tden = 1;
+    public Fraction(int whole, int num, int den) {
+        //prevent negative denom
+        if (den <= 0) {
+            throw new IllegalArgumentException("Denominator must be positive!");
         }
-        //error checking
-        if (tden <= 0) {
-            throw new IllegalArgumentException("Denominator must be positive.");
+        if (num < 0) {
+            throw new IllegalArgumentException("Numerator in a mixed number cannot be negative!");
         }
-        //is it negative?
-        int negval = 1;
-        if (twhole < 0) {
-            negval = -1;
+        //negative?
+        int neg = 1;
+        if (whole < 0) {
+            neg = -1;
         }
-        //setting
-        this.denominator = tden;
-        this.numerator = twhole * tden + tnum * negval;
+        //init
+        this.denominator = den;
+        this.numerator = whole * den + num * neg;
         simplify();
     }
 
+    public Fraction(String s) {
+        s = s.replace('_', ' ').replace('/', ' ');
+        Scanner scan = new Scanner(s);
+        if (wordCount(s) == 1) {
+            //init
+            this.numerator = scan.nextInt();
+            this.denominator = 1;
+            scan.close();
+        } else if (wordCount(s) == 2) {
+            //init
+            this.numerator = scan.nextInt();
+            this.denominator = scan.nextInt();
+            scan.close();
+            //error checking
+            if (this.denominator <= 0) {
+                throw new IllegalArgumentException("Denominator must be positive!");
+            }
+        } else if (wordCount(s) == 3) {
+            int whole = scan.nextInt();
+            int num = scan.nextInt();
+            int den = scan.nextInt();
+            scan.close();
+            //prevent negative denom (error checking)
+            if (den <= 0) {
+                throw new IllegalArgumentException("Denominator must be positive!");
+            }
+            if (num < 0) {
+                throw new IllegalArgumentException("Numerator in a mixed number cannot be negative!");
+            }
+            //is it negative?
+            int neg = 1;
+            if (whole < 0) {
+                neg = -1;
+            }
+            this.denominator = den;
+            this.numerator = whole * den + num * neg;
+            simplify();
+        } else {
+            throw new IllegalArgumentException("Did you even give me anything resembling a fraction?");
+        }
+    }
+
     public Fraction add(Fraction frac) {
-        int newden = lcd(this.denominator, frac.denominator);
-        int newnum = this.numerator * (this.denominator / newden)
-                + frac.numerator * (frac.denominator / newden);
-        //the fraction object simplifies upon init, so we don't have to do that here
-        return new Fraction(newnum, newden);
+        int op1num = this.numerator;
+        int op1den = this.denominator;
+        int op2num = frac.numerator;
+        int op2den = frac.denominator;
+        //perform operation
+        op1num *= (lcm(op1den, op2den) / op1den);
+        op1den *= (lcm(op1den, op2den) / op1den);
+        op2num *= (lcm(op1den, op2den) / op2den);
+        op1num += op2num;
+        //Simplify and return
+        return new Fraction(op1num / gcf(op1num, op1den), op1den / gcf(op1num, op1den));
     }
 
     public Fraction subtract(Fraction frac) {
-        int newden = lcd(this.denominator, frac.denominator);
-        int newnum = this.numerator * (this.denominator / newden)
-                - frac.numerator * (frac.denominator / newden);
-        //the fraction object simplifies upon init, so we don't have to do that here
-        return new Fraction(newnum, newden);
+        int op1num = this.numerator;
+        int op1den = this.denominator;
+        int op2num = frac.numerator;
+        int op2den = frac.denominator;
+        //perform operation
+        op1num *= (lcm(op1den, op2den) / op1den);
+        op1den *= (lcm(op1den, op2den) / op1den);
+        op2num *= (lcm(op1den, op2den) / op2den);
+        op1num -= op2num;
+        //Simplify and return
+        return new Fraction(op1num / gcf(op1num, op1den), op1den / gcf(op1num, op1den));
     }
 
     public Fraction multiply(Fraction frac) {
-        int newnum = this.numerator * frac.numerator;
-        int newden = this.denominator * frac.denominator;
-        //the fraction object simplifies upon init, so we don't have to do that here
-        return new Fraction(newnum, newden);
+        int op1num = this.numerator;
+        int op1den = this.denominator;
+        int op2num = frac.numerator;
+        int op2den = frac.denominator;
+        //perform operation
+        int finnum = op1num * op2num;
+        int finden = op1den * op2den;
+        //Simplify and return
+        return new Fraction(finnum / gcf(finnum, finden), finden / gcf(finnum, finden));
     }
 
     public Fraction divide(Fraction frac) {
-        //1/2 / 1/2 = 1/2 * 2/1
-        int newnum = this.numerator * frac.denominator;
-        int newden = this.denominator * frac.numerator;
-        if (newden <= 0) {
-            //to prevent init errors
-            newden *= -1;
-            newnum *= -1;
+        int op1num = this.numerator;
+        int op1den = this.denominator;
+        int op2num = frac.numerator;
+        int op2den = frac.denominator;
+        if (op2num == 0) {
+            throw new IllegalArgumentException("Why are you trying to divide by zero?");
         }
-        //the fraction object simplifies upon init, so we don't have to do that here
-        return new Fraction(newnum, newden);
+        //prevent 1/2 / -1/2 and the like from being a disaster
+        if (op2num < 0) {
+            op2den *= -1;
+            op2num *= -1;
+        }
+        //perform operation, remember that 1/2 / 1/4 = 1/2 * 4/1
+        int finnum = op1num * op2den;
+        int finden = op1den * op2num;
+        //Simplify and return
+        return new Fraction(finnum / gcf(finnum, finden), finden / gcf(finnum, finden));
     }
 
     public int getNumerator() {
@@ -122,37 +152,36 @@ public class Fraction {
     }
 
     public String toString() {
-        //prints the fraction
-        int whole = this.numerator / this.denominator;
-        int num = this.numerator % this.denominator;
-        int den = this.denominator;
-        num /= gcf(num, den);
-        den /= gcf(num, den);
-        if (whole != 0 && num != 0) {
-            //if it's mixed, contains BOTH
-            return whole + "_" + Math.abs(num) + "/" + den;
+        //TODO MAKE THIS EFFING WORK YOU IDIOT
+        //is it negative? (For use of mixed number)
+        int negval = 1;
+        if (this.numerator < 0) {
+            negval = -1;
         }
-        if (whole == 0 && num != 0) {
-            //if it is a just fraction, contains NO INT
-            return num + "/" + den;
+        if (this.numerator % this.denominator == 0) {
+            //whole number case
+            return "" + this.numerator / this.denominator;
+        } else if (Math.abs(this.numerator) < this.denominator) {
+            //fraction case
+            return this.numerator + "/" + this.denominator;
+        } else if (Math.abs(this.numerator) < this.denominator) {
+            //mixed number case
+            return (this.numerator / this.denominator) + "_" + negval * (this.numerator % this.denominator) + "/" + this.denominator;
+        } else {
+            //zero case
+            return "0";
         }
-        if (whole != 0 && num == 0) {
-            //if it is a whole num, contains NO FRACTION
-            return whole + "";
-        }
-        //else - if it's just 0
-        return "0";
     }
 
     private void simplify() {
         //simplifies object, used after init
-        int temp = gcf(numerator, denominator);
+        int temp = gcf(this.numerator, this.denominator);
         //save variables
         this.denominator /= temp;
         this.numerator /= temp;
     }
 
-    private static int lcd(int a, int b) {
+    private static int lcm(int a, int b) {
         //Finds the lowest common denominator between A and B
         //Always returns a positive value
         int result = a;
