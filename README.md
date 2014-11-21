@@ -1,4 +1,4 @@
-fraccalc
+Fraction Class (extension of FracCalc)
 ========
-Fraction Calculator project for APCS.
-2014-2015 school year, due November 14th 2014
+Fraction Class homework assignment for APCS.
+2014-2015 school year, due November 24th 2014
