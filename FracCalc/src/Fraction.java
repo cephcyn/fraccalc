@@ -5,14 +5,19 @@ public class Fraction {
     private int numerator;
     private int denominator;
 
-    public Fraction(int whole, int numerator, int denominator) {
+    public Fraction(int whole, int num, int den) {
         //Error checking
         if (denominator <= 0) {
             throw new IllegalArgumentException("Denominator must be positive.");
         }
+        //is it negative?
+        int negval = 1;
+        if (whole < 0) {
+            negval = -1;
+        }
         //setting
-        this.denominator = denominator;
-        this.numerator = whole * denominator + (whole/Math.abs(whole)) * numerator;
+        this.denominator = den;
+        this.numerator = whole * den + num * negval;
         simplify();
     }
 
@@ -61,9 +66,14 @@ public class Fraction {
         if (tden <= 0) {
             throw new IllegalArgumentException("Denominator must be positive.");
         }
+        //is it negative?
+        int negval = 1;
+        if (twhole < 0) {
+            negval = -1;
+        }
         //setting
         this.denominator = tden;
-        this.numerator = twhole * tden + tnum;
+        this.numerator = twhole * tden + tnum * negval;
         simplify();
     }
 
@@ -114,43 +124,42 @@ public class Fraction {
     public String toString() {
         //prints the fraction
         int whole = this.numerator / this.denominator;
-        int num = Math.abs(this.numerator % this.denominator);
+        int num = this.numerator % this.denominator;
         int den = this.denominator;
         num /= gcf(num, den);
         den /= gcf(num, den);
-        String output = "";
-        if (whole != 0) {
-            //if it contains an integer portion
-            output += whole;
-        }
         if (whole != 0 && num != 0) {
             //if it's mixed, contains BOTH
-            output += "_";
+            return whole + "_" + Math.abs(num) + "/" + den;
         }
-        if (num != 0) {
-            //if it contains a fraction portion
-            output += num + "/" + den;
+        if (whole == 0 && num != 0) {
+            //if it is a just fraction, contains NO INT
+            return num + "/" + den;
         }
-        if (whole == 0 && num == 0) {
-            //if it's just 0
-            return "0";
-        } 
-        return output;
+        if (whole != 0 && num == 0) {
+            //if it is a whole num, contains NO FRACTION
+            return whole + "";
+        }
+        //else - if it's just 0
+        return "0";
     }
 
     private void simplify() {
         //simplifies object, used after init
-        this.denominator /= gcf(numerator, denominator);
-        this.numerator /= gcf(numerator, denominator);
+        int temp = gcf(numerator, denominator);
+        //save variables
+        this.denominator /= temp;
+        this.numerator /= temp;
     }
 
     private static int lcd(int a, int b) {
         //Finds the lowest common denominator between A and B
+        //Always returns a positive value
         int result = a;
         while (result % b != 0) {
             result += a;
         }
-        return a;
+        return Math.abs(a);
     }
 
     private static int gcf(int a, int b) {
