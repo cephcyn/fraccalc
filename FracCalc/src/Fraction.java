@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 
 public class Fraction {
@@ -45,12 +44,12 @@ public class Fraction {
         s = s.replace('_', ' ').replace('/', ' ');
         Scanner scan = new Scanner(s);
         if (wordCount(s) == 1) {
-            //init
+            //if it's a WHOLE NUMBER
             this.numerator = scan.nextInt();
             this.denominator = 1;
             scan.close();
         } else if (wordCount(s) == 2) {
-            //init
+            //if it's a FRACTION
             this.numerator = scan.nextInt();
             this.denominator = scan.nextInt();
             scan.close();
@@ -60,6 +59,7 @@ public class Fraction {
             }
             simplify();
         } else if (wordCount(s) == 3) {
+            //if it's a MIXED FRACTION
             int whole = scan.nextInt();
             int num = scan.nextInt();
             int den = scan.nextInt();
