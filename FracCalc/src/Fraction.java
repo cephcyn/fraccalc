@@ -153,7 +153,6 @@ public class Fraction {
     }
 
     public String toString() {
-        //TODO MAKE THIS EFFING WORK YOU IDIOT
         //is it negative? (For use of mixed number)
         int negval = 1;
         if (this.numerator < 0) {
