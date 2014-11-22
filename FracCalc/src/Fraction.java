@@ -58,6 +58,7 @@ public class Fraction {
             if (this.denominator <= 0) {
                 throw new IllegalArgumentException("Denominator must be positive!");
             }
+            simplify();
         } else if (wordCount(s) == 3) {
             int whole = scan.nextInt();
             int num = scan.nextInt();
@@ -164,7 +165,7 @@ public class Fraction {
         } else if (Math.abs(this.numerator) < this.denominator) {
             //fraction case
             return this.numerator + "/" + this.denominator;
-        } else if (Math.abs(this.numerator) < this.denominator) {
+        } else if (Math.abs(this.numerator) > this.denominator) {
             //mixed number case
             return (this.numerator / this.denominator) + "_" + negval * (this.numerator % this.denominator) + "/" + this.denominator;
         } else {
@@ -174,7 +175,7 @@ public class Fraction {
     }
 
     private void simplify() {
-        //simplifies object, used after init
+        //simplifies object, used at init
         int temp = gcf(this.numerator, this.denominator);
         //save variables
         this.denominator /= temp;
@@ -188,7 +189,7 @@ public class Fraction {
         while (result % b != 0) {
             result += a;
         }
-        return Math.abs(a);
+        return Math.abs(result);
     }
 
     private static int gcf(int a, int b) {
